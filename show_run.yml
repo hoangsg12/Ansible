@@ -1,0 +1,15 @@
+---
+- name: Lay file cau hinh running-config tu Cisco Router
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Chay lenh show running-config
+      cisco.ios.ios_command:
+        commands:
+          - show running-config
+      register: run_config
+
+    - name: Hien thi noi dung running-config
+      ansible.builtin.debug:
+        msg: "{{ run_config.stdout[0].split('\n') }}"
