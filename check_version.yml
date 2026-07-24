@@ -1,12 +1,16 @@
 ---
-- name: Show version
+- name: Check Cisco Device Version
   hosts: all
   gather_facts: no
+  connection: network_cli
 
   tasks:
     - name: Show version
-      ios_command:
-        commands: show version
-      register: result
-    - fail: msg="can update version"
-      when: "not ('Version 12.4' in result.stdout[0])"
+      cisco.ios.ios_command:
+        commands:
+          - show version
+      register: version_output
+
+    - name: Print output
+      ansible.builtin.debug:
+        var: version_output.stdout_lines
