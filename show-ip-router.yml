@@ -1,0 +1,15 @@
+---
+- name: Lay bang tuyen duong (IP Route) tu Cisco Router
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Chay lenh show ip route
+      cisco.ios.ios_command:
+        commands:
+          - show ip route
+      register: route_output
+
+    - name: Hien thi bang ip route
+      ansible.builtin.debug:
+        msg: "{{ route_output.stdout[0].split('\n') }}"
